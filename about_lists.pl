@@ -35,16 +35,8 @@ my_flatten([H|T], [H|X]) :- my_flatten(T, X).
 my_flatten(X,[X]).
 
 my_compress([],[]).
-my_compress([H,H,H,H,H,H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H,H|T], [H|X]) :- my_compress(T,X).
-my_compress([H,H|T], [H|X]) :- my_compress(T,X).
+my_compress([H,H|T], X) :- my_compress([H|T],X).
+my_compress([H,K|T], [H|X]) :- my_compress(T,X).
 my_compress([H|T], [H|X]) :- my_compress(T,X).
 
 my_pack(_,_) :- false.
