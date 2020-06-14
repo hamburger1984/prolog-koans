@@ -56,6 +56,9 @@ test(my_encode_modified, [nondet]) :-
 test(my_encode_reverse, [nondet]) :-
 	my_encode_reverse([[4,a],b,[2,c],[2,a],d,[4,e]],[a,a,a,a,b,c,c,a,a,d,e,e,e,e]).
 
+test(my_encode_reverse, [nondet]) :-
+	my_encode_reverse([z,[4,a],b,[2,c],[2,a],d,[4,e]],[z,a,a,a,a,b,c,c,a,a,d,e,e,e,e]).
+
 test(my_encode_direct, [nondet]) :-
 	my_encode_direct([a,a,a,a,b,c,c,a,a,d,e,e,e,e],[[4,a],b,[2,c],[2,a],d,[4,e]]).
 

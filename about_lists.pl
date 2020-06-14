@@ -41,28 +41,27 @@ my_compress([H,H|T], X) :- my_compress([H|T],X).
 my_compress([H,K|T], [H|X]) :- my_compress(T,X).
 my_compress([H|T], [H|X]) :- my_compress(T,X).
 
-% [a,a,b,b,c,c,c,c] -> [[a,a],[b,b],[c,c,c,c]]
 my_pack(L, [ST|X]) :- my_pack_impl(L, ST, X).
-% L input list being "deconstructed"
-% ST sub list full of Hs
-% X result
 my_pack_impl([H,H|T], [H|ST], X) :- my_pack_impl([H|T], ST, X).
 my_pack_impl([H,K|T], [H], [ST|X]) :- my_pack_impl([K|T], ST, X).
-%my_pack_impl([H|T], [H|ST], X) :- my_pack_impl(T, ST, X).
 my_pack_impl([H], [H], []).
 my_pack_impl([], [], []).
-%my_pack_impl([H|
-%my_pack([
-%my_pack([H|T], [[H]]) -> my_pack(
-%my_pack([H|T],X) -> my_pack_impl(T,H,
-%my_pack(_,_) :- false.
-%my_pack_impl([H|T],H,
 
-my_encode(_,_) :- false.
+my_encode(L, X) :- my_pack(L, P), my_encode_impl(P, X).
+my_encode_impl([H|T], [[HN, HF]|ET]) :- my_number_of(HN, H), my_first(HF, H), my_encode_impl(T,ET).
+my_encode_impl([], []).
 
-my_encode_modified(_,_) :- false.
+my_encode_modified(L, X) :- my_pack(L, P), my_encode_impl2(P, X).
+my_encode_impl2([H|T], [HF|ET]) :- my_number_of(1, H), my_first(HF, H), my_encode_impl2(T,ET).
+my_encode_impl2([H|T], [[HN, HF]|ET]) :- my_number_of(HN, H), my_first(HF, H), my_encode_impl2(T,ET).
+my_encode_impl2([], []).
 
-my_encode_reverse(_,_) :- false.
+my_encode_reverse([[N,C]|T], X) :- my_encode_reverse_impl(N,C,X,T).
+my_encode_reverse([C|T], X) :- my_encode_reverse_impl(1,C,X,T).
+my_encode_reverse_impl(1,C,[C],[]).
+my_encode_reverse_impl(1,C,[C|X],[[M,D]|T]) :- my_encode_reverse_impl(M,D,X,T).
+my_encode_reverse_impl(1,C,[C|X],[D|T]) :- my_encode_reverse_impl(1,D,X,T).
+my_encode_reverse_impl(N,C,[C|X],T) :- succ(M,N), my_encode_reverse_impl(M,C,X,T).
 
 my_encode_direct(_,_) :- false.
 
