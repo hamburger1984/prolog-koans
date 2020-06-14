@@ -23,16 +23,18 @@ my_number_of(0,[]).
 %my_number_of(N,[_|L]) :- my_number_of(M,L), N is M+1.
 my_number_of(N,[_|L]) :- my_number_of(M,L), succ(M,N).
 
-my_reverse([],[]).
-my_reverse(X, [H|T]) :- my_reverse(Y, T), append(Y,[H],X).
+my_reverse(L,X) :- my_reverse_impl(L,X,[]).
+my_reverse_impl([],X,X).
+my_reverse_impl([H|T],X,Y) :- my_reverse_impl(T,X,[H|Y]).
 
 is_palindrome([]).
 is_palindrome(X) :- my_reverse(X,X).
 
-my_flatten([], []).
-my_flatten([H|T], X) :- is_list(H), my_flatten(H,HF), my_flatten(T,TF), append(HF,TF,X).
-my_flatten([H|T], [H|X]) :- my_flatten(T, X).
-my_flatten(X,[X]).
+my_flatten(L, X) :- my_flatten_impl(L, X, []).
+my_flatten(X, [X]).
+my_flatten_impl([H|T], X, Y) :- H = [_|_], my_flatten_impl(T, Z, Y), my_flatten_impl(H, X, Z).
+my_flatten_impl([H|T], [H|Y], X) :- my_flatten_impl(T, Y, X).
+my_flatten_impl([], X, X).
 
 my_compress([],[]).
 my_compress([H,H|T], X) :- my_compress([H|T],X).
